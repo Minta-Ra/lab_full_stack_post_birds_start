@@ -9,40 +9,38 @@ const createRouter = (collection) => {
     router.get('/', (req, res) => {
         collection.find().toArray()
         .then((docs) => res.json(docs)) 
-        .catch((error) => {
-            console.error(error)
+        .catch((err) => {
+            console.error(err)
             res.status(500)
-            res.json({status:500, error:error})
+            res.json({status:500, error:err})
         })
-    })
+    });
 
-
-    //CREATE
+    // CREATE NEW
     router.post('/',(req, res) => {
         const newData = req.body
         collection.insertOne(newData)
         .then((result) => res.json(result.ops[0]))
-        .catch((error) => {
-            console.error(error)
+        .catch((err) => {
+            console.error(err)
             res.status(500)
-            res.json({status:500, error:error})
+            res.json({status:500, error:err})
         })
-        
-    })
+    });
 
-    //DELETE
+    // DELETE BY ID
     router.delete('/:id', (req, res) => {
         const id = req.params.id
         collection.deleteOne({_id: ObjectID(id)})
         .then((result) => res.json(result))
-        .catch((error) => {
-            console.error(error)
+        .catch((err) => {
+            console.error(err)
             res.status(500)
-            res.json({status:500, error:error})
+            res.json({status:500, error:err})
         })
-    })
+    });
 
-    return router
+    return router;
 }
 
 module.exports = createRouter;
